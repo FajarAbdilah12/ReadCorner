@@ -22,7 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'phone',
+        'role',
     ];
 
     /**
@@ -45,8 +45,5 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function pinjams(): HasMany
-    {
-        return $this->hasMany(Pinjam::class);
-    }
+    
 }

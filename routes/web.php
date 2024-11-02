@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\PeminjamanController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,12 +24,22 @@ Route::get('/', function () {
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
+Route::get('/register', [LoginController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [LoginController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
-Route::group(['middleware' => ['auth', 'admin']], function () {
+Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::get('/admin', function () {
-        return view('books.create'); // Ganti dengan view dashboard admin
+        return view('books.create'); // Sesuaikan dengan halaman dashboard admin
     });
-    Route::resource('books', BookController::class);// Tambahkan route untuk CRUD di sini
+    Route::resource('books', BookController::class); // Route CRUD untuk buku
+});
+
+// Route untuk User
+Route::group(['middleware' => ['auth', 'role:user']], function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('user.dashboard');
+    Route::get('/peminjaman', [PeminjamanController::class, 'create'])->name('peminjaman.create');
+    Route::post('/peminjaman', [PeminjamanController::class, 'store'])->name('peminjaman.store');
+    Route::patch('/peminjaman/{id}', [PeminjamanController::class, 'update'])->name('peminjaman.update');
 });

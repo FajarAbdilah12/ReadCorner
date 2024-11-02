@@ -4,23 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Book extends Model
 {
     use HasFactory;
-
-    protected $table = 'books';
 
     protected $fillable = [
         'title',
         'author',
         'publisher',
         'year',
-    ];
 
-    public function pinjam(): HasMany
+    ]; // Sesuaikan dengan field di tabel buku
+
+    public function pinjams()
     {
-        return $this->hasMany(Pinjam::class);
+        return $this->hasMany(Pinjam::class, 'book_id'); // Asumsi 'book_id' adalah foreign key di tabel pinjam
     }
 }
+
+
+
+
