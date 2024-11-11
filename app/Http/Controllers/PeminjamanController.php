@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
-use App\Models\Pinjam;
+use App\Models\Pinjam; // Gunakan hanya model Pinjam jika ini yang utama
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,7 +19,7 @@ class PeminjamanController extends Controller
     public function create()
     {
         $books = Book::whereDoesntHave('pinjams', function ($query) {
-        $query->where('status', 'dipinjam');
+            $query->where('status', 'dipinjam');
         })->get();
 
         return view('peminjaman.create', compact('books'));
@@ -43,17 +43,25 @@ class PeminjamanController extends Controller
     }
 
     public function update($id)
-{
-    // Cari data peminjaman berdasarkan ID
-    $peminjaman = Pinjam::findOrFail($id);
-    
-    // Update status peminjaman dan tanggal pengembalian
-    $peminjaman->status = 'dikembalikan';
-    $peminjaman->tanggal_pengembalian = now();
-    $peminjaman->save();
+    {
+        // Cari data peminjaman berdasarkan ID
+        $peminjaman = Pinjam::findOrFail($id);
+        
+        // Update status peminjaman dan tanggal pengembalian
+        $peminjaman->status = 'dikembalikan';
+        $peminjaman->tanggal_pengembalian = now();
+        $peminjaman->save();
 
-    // Arahkan kembali ke halaman dashboard pengguna dengan pesan sukses
-    return redirect()->route('user.dashboard')->with('success', 'Buku berhasil dikembalikan.');
+        // Arahkan kembali ke halaman dashboard pengguna dengan pesan sukses
+        return redirect()->route('user.dashboard')->with('success', 'Buku berhasil dikembalikan.');
+    }
+
+    public function list()
+{
+    $peminjaman = Pinjam::with(['book', 'user'])->get();
+    return view('peminjaman.list', compact('peminjaman'));
 }
 
+
+    
 }

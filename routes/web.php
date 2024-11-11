@@ -18,9 +18,8 @@ use App\Http\Controllers\DashboardController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home.home');
 });
-
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
@@ -28,15 +27,17 @@ Route::get('/register', [LoginController::class, 'showRegistrationForm'])->name(
 Route::post('/register', [LoginController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::get('/admin', function () {
-        return view('books.create'); // Sesuaikan dengan halaman dashboard admin
+        return view('books.create');
     });
-    Route::resource('books', BookController::class); // Route CRUD untuk buku
+    Route::resource('books', BookController::class);
 });
 
-// Route untuk User
+Route::get('/peminjaman/list', [PeminjamanController::class, 'list'])->name('peminjaman.list');
+Route::patch('/peminjaman/return/{id}', [PeminjamanController::class, 'update'])->name('peminjaman.return');
+
+
 Route::group(['middleware' => ['auth', 'role:user']], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('user.dashboard');
     Route::get('/peminjaman', [PeminjamanController::class, 'create'])->name('peminjaman.create');

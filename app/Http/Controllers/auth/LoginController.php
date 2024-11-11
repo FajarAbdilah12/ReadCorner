@@ -12,12 +12,12 @@ class LoginController extends Controller
 {
     public function showLoginForm()
     {
-        return view('auth.login'); // Buat view untuk login
+        return view('auth.login'); // View for login
     }
 
     public function showRegistrationForm()
     {
-        return view('auth.register'); // Buat view untuk register
+        return view('auth.register'); // View for registration
     }
 
     public function register(Request $request)
@@ -28,7 +28,7 @@ class LoginController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        // Buat user baru dengan peran 'user'
+        // Create new user with role 'user'
         User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -36,7 +36,7 @@ class LoginController extends Controller
             'role' => 'user',
         ]);
 
-        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
+        return redirect()->route('login')->with('success', 'Registration successful! Please login.');
     }
 
     public function login(Request $request)
@@ -49,11 +49,11 @@ class LoginController extends Controller
         if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
 
-            // Arahkan berdasarkan role
+            // Redirect based on role
             if ($user->role === 'admin') {
-                return redirect()->intended('/admin');
+                return redirect()->route('books.index'); // Redirect admin to the book list
             } else {
-                return redirect()->intended('/dashboard');
+                return redirect()->route('user.dashboard'); // Redirect user to their dashboard
             }
         }
 

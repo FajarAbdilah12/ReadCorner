@@ -14,7 +14,6 @@ class BookController extends Controller
     {
        $books = Book::all();
        return view('books.index', compact('books'));
-        //
     }
 
     /**
@@ -22,7 +21,7 @@ class BookController extends Controller
      */
     public function create()
     {
-       return view('books.create'); //
+       return view('books.create');
     }
 
     /**
@@ -36,10 +35,10 @@ class BookController extends Controller
          'publisher' => 'required',
          'year' => 'required|digits:4',
        ]);
-       
+
        Book::create($request->all());
-       
-       return redirect()->route('books.index')->with('success', 'Buku ditambah');//
+
+       return redirect()->route('books.index')->with('success', 'Buku ditambah');
     }
 
     /**
@@ -55,13 +54,14 @@ class BookController extends Controller
      */
     public function edit(string $id)
     {
-        return view('books.edit', compact('book'));//
+        $book = Book::findOrFail($id); // Ambil data buku berdasarkan ID
+        return view('books.edit', compact('book'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Book $books)
+    public function update(Request $request, Book $book)
     {
         $request->validate([
             'title' => 'required',
@@ -70,21 +70,22 @@ class BookController extends Controller
             'year' => 'required|digits:4',
         ]);
 
-        // Mengupdate data buku
-        $books->update($request->all());
+        $book->update($request->all()); // Mengupdate data buku
 
-        // Redirect ke halaman daftar buku dengan pesan sukses
-        return redirect()->route('books.index')->with('success', 'Book updated successfully!');//
+        return redirect()->route('books.index')->with('success', 'Book updated successfully!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Book $books)
+    public function destroy(Book $book)
     {
-        $books->delete();
-
+        // Hapus catatan pinjams terkait terlebih dahulu
+        $book->pinjams()->delete(); // Menghapus semua pinjam yang berhubungan dengan buku
+    
+        // Sekarang hapus buku
+        $book->delete();
+    
         return redirect()->route('books.index')->with('success', 'Buku dihapus');
-        //
     }
 }
