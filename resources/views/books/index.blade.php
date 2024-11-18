@@ -73,15 +73,26 @@
             <img src="https://img.icons8.com/ios-filled/50/000000/open-book.png" alt="Book Icon">
             Book List
         </h1>
-        <a href="{{ route('books.create') }}" class="btn btn-primary mb-3">Add New Book</a>
-        <a href="{{ route('peminjaman.list') }}" class="btn btn-primary mb-3 ml-2">Data Peminjam</a>
-        
+        <div class="d-flex justify-content-between mb-3">
+            <div>
+                <a href="{{ route('books.create') }}" class="btn btn-primary">Add New Book</a>
+                <a href="{{ route('peminjaman.list') }}" class="btn btn-primary ml-2">Data Peminjam</a>
+            </div>
+            <div>
+                <a href="{{ url('/') }}" class="btn btn-primary mr-2">Home</a>
+                <form action="{{ route('logout') }}" method="POST" style="display: inline-block;">
+                    @csrf
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
+            </div>
+        </div>
+    
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
         @endif
-
+    
         <table class="table custom-table">
             <thead>
                 <tr>
@@ -113,7 +124,6 @@
                 @endforeach
             </tbody>
         </table>
-    </div>
-
+    </div>    
 </body>
 </html>

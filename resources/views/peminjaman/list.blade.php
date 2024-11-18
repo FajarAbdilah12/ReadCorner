@@ -118,14 +118,10 @@
         .action-buttons form {
             margin: 0;
         }
-
-        /* Animation on hover for buttons */
         .btn-action:hover {
             transform: scale(1.1);
             transition: transform 0.2s ease-in-out;
         }
-
-        /* Spinner for loading state */
         .spinner {
             display: inline-block;
             width: 24px;

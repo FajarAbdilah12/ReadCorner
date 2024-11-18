@@ -61,6 +61,16 @@ class PeminjamanController extends Controller
     $peminjaman = Pinjam::with(['book', 'user'])->get();
     return view('peminjaman.list', compact('peminjaman'));
 }
+public function returnBook($id)
+{
+    $peminjaman = Peminjaman::findOrFail($id);
+    $peminjaman->status = 'dikembalikan';
+    $peminjaman->tanggal_pengembalian = now();
+    $peminjaman->save();
+
+    return redirect()->route('peminjaman.list')->with('success', 'Buku berhasil dikembalikan.');
+}
+
 
 
     

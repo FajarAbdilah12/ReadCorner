@@ -53,6 +53,16 @@
         .btn-warning:hover {
             background-color: #fb8c00;
         }
+        .btn-danger {
+            background-color: #e53935;
+            border: none;
+            border-radius: 20px; /* Sama seperti tombol lainnya */
+            color: #fff;
+        }
+        .btn-danger:hover {
+            background-color: #c62828;
+            color: #fff;
+        }
         .book-item {
             background-color: #bbdefb;
             border: none;
@@ -95,7 +105,14 @@
     <div class="card mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
             <span>Daftar Buku Tersedia</span>
-            <a href="{{ route('peminjaman.create') }}" class="btn btn-primary">Pinjam Buku</a>
+            <div>
+                <a href="{{ url('/') }}" class="btn btn-primary mr-2">Home</a>
+                <form action="{{ route('logout') }}" method="POST" style="display: inline-block;">
+                    @csrf
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
+                <a href="{{ route('peminjaman.create') }}" class="btn btn-primary ml-2">Pinjam Buku</a>
+            </div>
         </div>
         <div class="card-body">
             <div class="row">
@@ -145,6 +162,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>

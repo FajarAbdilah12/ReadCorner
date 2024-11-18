@@ -25,8 +25,6 @@
             width: 100%;
             animation: fadeInUp 1s ease-out;
         }
-
-        /* Title Styling */
         .form-header {
             display: flex;
             align-items: center;
@@ -43,8 +41,6 @@
             color: #42a5f5;
             animation: rotate 1.5s linear infinite;
         }
-
-        /* Form Group Styling */
         .form-group label {
             font-weight: 600;
             color: #1e88e5;
@@ -64,8 +60,6 @@
             border-color: #1e88e5;
             box-shadow: 0 0 5px rgba(30, 136, 229, 0.4);
         }
-
-        /* Button Styling */
         .btn-primary {
             background-color: #43a047;
             color: #ffffff;
@@ -86,8 +80,6 @@
         .btn-primary:hover {
             background-color: #2e7d32;
         }
-
-        /* Animations */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
